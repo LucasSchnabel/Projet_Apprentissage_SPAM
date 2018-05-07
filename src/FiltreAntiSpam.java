@@ -15,6 +15,8 @@ public class FiltreAntiSpam {
 	private int nbSPAM;
 	//nombre de HAM lu
 	private int nbHAM;
+	//nombre de message lu
+	private int nbMessage;
 	//parametre pour eviter le surapprentissage
 	private int epsylon;
 	//probabilite de voir le mot i dans un SPAM
@@ -39,6 +41,11 @@ public class FiltreAntiSpam {
 	    System.out.println("nb mots spam : "+i); 
 	}
 	
+	/**
+	 * met a jour les stats d'apparition des mots et le nombre de SPAM/HAM lu
+	 * @param message
+	 * @param etiquette
+	 */
 	public void update(boolean[] message,String etiquette){
 		
 	}
