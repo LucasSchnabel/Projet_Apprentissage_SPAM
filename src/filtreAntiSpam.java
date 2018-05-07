@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class filtreAntiSpam {
 
@@ -7,10 +11,32 @@ public class filtreAntiSpam {
 		
 	}
 	
-	public void charger_dictionnaire(String nomFichier){
-		//cette fonction doit pouvoir charger un dictionnaire (par
-		//exemple dans un tableau de mots) à partir d’un fichier texte
-	}
+	public void charger_dictionnaire(String nomFichier) { 
+	    String line = ""; 
+	    BufferedReader br = null; 
+	    try { 
+	      br = new BufferedReader(new FileReader(nomFichier)); 
+	      int i = 0; 
+	      // on boucle sur chaque ligne du fichier 
+	      while ((line = br.readLine()) != null) { 
+	        this.dictionnaire[i] = line; 
+	        i++; 
+	      } 
+	 
+	    } catch (FileNotFoundException e) { 
+	      e.printStackTrace(); 
+	    } catch (IOException e) { 
+	      e.printStackTrace(); 
+	    } finally { 
+	      if (br != null) { 
+	        try { 
+	          br.close(); 
+	        } catch (IOException e) { 
+	          e.printStackTrace(); 
+	        } 
+	      } 
+	    } 
+	  } 
 	
 	public boolean[] lire_message(String nomFichier){
 		boolean[] res = null;
