@@ -73,7 +73,7 @@ public class FiltreAntiSpam {
 	 * @return
 	 * 		vrai si SPAM, faux si HAM
 	 */
-	public boolean spamDetect(boolean[] message){
+	public boolean spamDetect(Boolean[] message){
 		return true;
 	}
 	
@@ -90,6 +90,40 @@ public class FiltreAntiSpam {
 	 * @param nbHAM
 	 */
 	public void test(int nbSPAM,int nbHAM){
+		
+		//Boucle sur les Spams
+		int nbErreursSpams = 0;
+		Boolean [] spam;
+		for (int i = 0; i < nbSPAM; i++) {
+			spam = this.lire_message(this.path + "/spam/" + i + ".txt");
+			Boolean res = this.spamDetect(spam);
+			if(res) {
+				System.out.println("SPAM numéro " + i +" identifié comme un SPAM");
+			}else {
+				System.out.println("SPAM numéro " + i +" identifié comme un HAM *** erreur ***");
+				nbErreursSpams++;
+			}
+		}
+		
+		//Boucle sur les Hams
+		int nbErreursHams = 0;
+		Boolean [] ham;
+		for (int i = 0; i < nbHAM; i++) {
+			ham = this.lire_message(this.path + "/ham/" + i + ".txt");
+			Boolean res = this.spamDetect(ham);
+			if(!res) {
+				System.out.println("HAM numéro " + i +" identifié comme un HAM");
+			}else {
+				System.out.println("HAM numéro " + i +" identifié comme un SPAM *** erreur ***");
+				nbErreursHams++;
+			}
+		}
+		int PTestErreurSpam = (nbErreursSpams / nbSPAM) * 100;
+		int PTestErreurHam = (nbErreursHams / nbHAM) * 100;
+		int PTestErreurTotal = ((nbErreursSpams + nbErreursHams) / (nbSPAM + nbSPAM)) * 100;
+		System.out.println("Erreur de test sur les " + nbSPAM  + " SPAM : " +PTestErreurSpam + " %");
+		System.out.println("Erreur de test sur les " + nbHAM + " HAM : "+ PTestErreurHam + " %");
+		System.out.println("Erreur de test globale sur " + (nbSPAM+nbHAM) + " mails : " + PTestErreurTotal + " % ");
 		
 	}
 	
