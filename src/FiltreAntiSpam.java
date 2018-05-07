@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class FiltreAntiSpam {
 
@@ -25,8 +26,24 @@ public class FiltreAntiSpam {
 	private double[] bHAM;
 	
 	public static void main(String[] args){
-		FiltreAntiSpam filtre = new FiltreAntiSpam(); 
-	    filtre.charger_dictionnaire("dictionnaire1000en.txt", 1000); 
+		//initialisation
+		int taille = 1000;
+		int nbSPAMTest = Integer.parseInt(args[0]);
+		int nbHAMTest = Integer.parseInt(args[1]);
+		FiltreAntiSpam filtre = new FiltreAntiSpam();
+		filtre.motsHAM = new int[taille];
+		filtre.motsSPAM = new int[taille];
+		filtre.bSPAM = new double[taille];
+		filtre.bHAM = new double[taille];
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Combien de SPAM dans la base d'apprentissage ?");
+		filtre.nbHAM = sc.nextInt();
+		System.out.println("Combien de HAM dans la base d'apprentissage ?");
+		filtre.nbSPAM = sc.nextInt();
+		filtre.nbMessage = 0;
+		filtre.epsylon = 1;
+		
+	    filtre.charger_dictionnaire("dictionnaire1000en.txt", taille); 
 	    Boolean [] ham = filtre.lire_message("baseapp/ham/0.txt"); 
 	    int i = 0; 
 	    for(Boolean b : ham) { 
@@ -47,7 +64,19 @@ public class FiltreAntiSpam {
 	 * @param etiquette
 	 */
 	public void update(boolean[] message,String etiquette){
-		
+		int i = 0;
+		for(boolean b:message){
+			if(b){
+				if(etiquette == "SPAM"){
+					this.motsSPAM[i]++;
+				}else{
+					this.motsHAM[i]++;
+				}
+			}
+			
+			i++;
+		}
+		this.nbMessage++;
 	}
 	
 	public void charger_dictionnaire(String nomFichier,int taille) { 
