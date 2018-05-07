@@ -59,6 +59,38 @@ public class FiltreAntiSpam {
 	}
 	
 	/**
+	 * calcul les valeurs de l'ensemble des tableaux bSPAM et bHAM
+	 */
+	public void calculeFrequenceMot(){
+		
+	}
+	
+	/**
+	 * detecte si le message mit en parametre est un spam,sinon c'est un ham
+	 * @return
+	 * 		vrai si SPAM, faux si HAM
+	 */
+	public boolean spamDetect(boolean[] message){
+		return true;
+	}
+	
+	/**
+	 * lit la base d'apprentissage et met a jour les attributs en fonction de l'apparition des mots
+	 */
+	public void apprentissage(){
+		
+	}
+	
+	/**
+	 * test le classifieur naif sur la base de test
+	 * @param nbSPAM
+	 * @param nbHAM
+	 */
+	public void test(int nbSPAM,int nbHAM){
+		
+	}
+	
+	/**
 	 * met a jour les stats d'apparition des mots et le nombre de SPAM/HAM lu
 	 * @param message
 	 * @param etiquette
@@ -79,6 +111,11 @@ public class FiltreAntiSpam {
 		this.nbMessage++;
 	}
 	
+	/**
+	 * charge l'ensemble des mots d'un fichier dans un tableau de string qui represente le dictionnaire
+	 * @param nomFichier
+	 * @param taille
+	 */
 	public void charger_dictionnaire(String nomFichier,int taille) { 
 	    String line = ""; 
 	    BufferedReader br = null; 
@@ -106,6 +143,11 @@ public class FiltreAntiSpam {
 	    } 
 	  } 
 	
+	/**
+	 * lit un message present dans un fichier et retourne un tableau de boolean qui represente la presence du mot i dans le message
+	 * @param nomFichier
+	 * @return
+	 */
 	public Boolean[] lire_message(String nomFichier) { 
 	    Boolean[] res = new Boolean[this.dictionnaire.length]; 
 	    for (int i = 0; i < res.length; i++) { 
