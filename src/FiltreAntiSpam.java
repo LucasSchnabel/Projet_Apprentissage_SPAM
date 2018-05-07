@@ -24,13 +24,16 @@ public class FiltreAntiSpam {
 	private double[] bSPAM;
 	//probabilite de voir le mot i dans un HAM
 	private double[] bHAM;
+	//base utilisée
+	private String path;
 	
 	public static void main(String[] args){
 		//initialisation
 		int taille = 1000;
-		int nbSPAMTest = Integer.parseInt(args[0]);
-		int nbHAMTest = Integer.parseInt(args[1]);
+		int nbSPAMTest = Integer.parseInt(args[1]);
+		int nbHAMTest = Integer.parseInt(args[2]);
 		FiltreAntiSpam filtre = new FiltreAntiSpam();
+		filtre.path = args[0];
 		filtre.motsHAM = new int[taille];
 		filtre.motsSPAM = new int[taille];
 		filtre.bSPAM = new double[taille];
@@ -44,14 +47,14 @@ public class FiltreAntiSpam {
 		filtre.epsylon = 1;
 		
 	    filtre.charger_dictionnaire("dictionnaire1000en.txt", taille); 
-	    Boolean [] ham = filtre.lire_message("baseapp/ham/0.txt"); 
+	    Boolean [] ham = filtre.lire_message("ham/0.txt"); 
 	    int i = 0; 
 	    for(Boolean b : ham) { 
 	      if(b) i++; 
 	    } 
 	    System.out.println("nb mots ham : "+i); 
 	    i = 0; 
-	    Boolean [] spam = filtre.lire_message("baseapp/spam/0.txt"); 
+	    Boolean [] spam = filtre.lire_message("spam/0.txt"); 
 	    for(Boolean b : spam) { 
 	      if(b) i++; 
 	    } 
@@ -119,6 +122,7 @@ public class FiltreAntiSpam {
 	public void charger_dictionnaire(String nomFichier,int taille) { 
 	    String line = ""; 
 	    BufferedReader br = null; 
+	    this.dictionnaire = new String[taille];
 	    try { 
 	      br = new BufferedReader(new FileReader(nomFichier)); 
 	      int i = 0; 
@@ -159,7 +163,7 @@ public class FiltreAntiSpam {
 	    String line = ""; 
 	    BufferedReader br = null; 
 	    try { 
-	      br = new BufferedReader(new FileReader(nomFichier)); 
+	      br = new BufferedReader(new FileReader(this.path+"/"+nomFichier)); 
 	      // on boucle sur chaque ligne du fichier 
 	      while ((line = br.readLine()) != null) { 
 	        for (int i = 0; i < this.dictionnaire.length; i++) { 
