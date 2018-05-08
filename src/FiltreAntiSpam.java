@@ -71,7 +71,7 @@ public class FiltreAntiSpam {
 			this.bHAM[i] = (this.motsHAM[i]+this.epsylon)/(this.nbHAM+2*this.epsylon);
 			this.bSPAM[i] = (this.motsSPAM[i]+this.epsylon)/(this.nbSPAM+2*this.epsylon);
 		}
-		System.out.println("Calcul terminé.");
+		System.out.println("Calcul terminï¿½.");
 	}
 	
 	/**
@@ -81,17 +81,23 @@ public class FiltreAntiSpam {
 	 */
 	public boolean spamDetect(Boolean[] message){
 		//estimation des probabilite a priori P(Y=SPAM) et P(Y=HAM)
-		
+		int pSPAM = this.nbSPAM/this.nbMessage;
+		int pHAM = this.nbHAM/this.nbMessage;
 		//calcul de P(X=x|Y=SPAM) et P(X=x|Y=HAM)
 		//somme des b 
 		
 		//calcul de P(X=x)
 		
 		//calcul de P(Y=SPAM|X=x) et P(Y=HAM|X=x)
+		int pSPAMx = (1/pX) * pSPAM + pxSPAM;
+		int pHAMx = (1/pX) * pHAM + pxHAM;
 		
 		//si P(Y=SPAM|X=x)>P(Y=HAM|X=x) alors spam sinon ham
-		
-		return true;
+		if(pSPAMx>pHAMx){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	/**
