@@ -84,8 +84,18 @@ public class FiltreAntiSpam {
 		double pSPAM = this.nbSPAM/this.nbMessage;
 		double pHAM = this.nbHAM/this.nbMessage;
 		//calcul de P(X=x|Y=SPAM) et P(X=x|Y=HAM)
-		//somme des b 
-		
+		//produit des b
+		double pxSPAM = 0;
+		double pxHAM = 0;
+		for(int i = 0;i<this.bHAM.length;i++){
+			if(message[i]){
+				pxSPAM = pxSPAM * this.bSPAM[i];
+				pxHAM = pxHAM * this.bHAM[i];
+			}else{
+				pxSPAM = pxSPAM * (1-this.bSPAM[i]);
+				pxHAM = pxHAM * (1-this.bHAM[i]);
+			}
+		}
 		//calcul de P(X=x)
 		
 		//calcul de P(Y=SPAM|X=x) et P(Y=HAM|X=x)
