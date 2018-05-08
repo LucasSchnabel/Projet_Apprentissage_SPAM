@@ -59,7 +59,7 @@ public class FiltreAntiSpam {
 	    
 	    //lancement de la phase de test 
 	    filtre.path = args[0];
-	    //filtre.test(nbSPAMTest, nbHAMTest);
+	    filtre.test(nbSPAMTest, nbHAMTest);
 	}
 	
 	/**
@@ -71,7 +71,7 @@ public class FiltreAntiSpam {
 			this.bHAM[i] = (this.motsHAM[i]+this.epsylon)/(this.nbHAM+2*this.epsylon);
 			this.bSPAM[i] = (this.motsSPAM[i]+this.epsylon)/(this.nbSPAM+2*this.epsylon);
 		}
-		System.out.println("Calcul termin�.");
+		System.out.println("Calcul termine.");
 	}
 	
 	/**
@@ -104,7 +104,7 @@ public class FiltreAntiSpam {
 		//calcul de P(Y=SPAM|X=x) et P(Y=HAM|X=x)
 		double pSPAMx = (1/pX) * pSPAM + pxSPAM;
 		double pHAMx = (1/pX) * pHAM + pxHAM;
-		
+		System.out.println("P(Y=SPAM|X=x) = "+pSPAMx+", P(Y=HAM|X=x) = "+pHAMx);
 		//si P(Y=SPAM|X=x)>P(Y=HAM|X=x) alors spam sinon ham
 		if(pSPAMx>pHAMx){
 			return true;
@@ -142,12 +142,13 @@ public class FiltreAntiSpam {
 		int nbErreursSpams = 0;
 		Boolean [] spam;
 		for (int i = 0; i < nbSPAM; i++) {
-			spam = this.lire_message(this.path + "/spam/" + i + ".txt");
+			spam = this.lire_message("spam/" + i + ".txt");
+			System.out.println("SPAM numero " + i);
 			Boolean res = this.spamDetect(spam);
 			if(res) {
-				System.out.println("SPAM num�ro " + i +" identifi� comme un SPAM");
+				System.out.println( " identifie comme un SPAM");
 			}else {
-				System.out.println("SPAM num�ro " + i +" identifi� comme un HAM *** erreur ***");
+				System.out.println(" identifie comme un HAM *** erreur ***");
 				nbErreursSpams++;
 			}
 		}
@@ -156,12 +157,13 @@ public class FiltreAntiSpam {
 		int nbErreursHams = 0;
 		Boolean [] ham;
 		for (int i = 0; i < nbHAM; i++) {
-			ham = this.lire_message(this.path + "/ham/" + i + ".txt");
+			ham = this.lire_message("ham/" + i + ".txt");
+			System.out.println("HAM numero " + i);
 			Boolean res = this.spamDetect(ham);
 			if(!res) {
-				System.out.println("HAM num�ro " + i +" identifi� comme un HAM");
+				System.out.println(" identifie comme un HAM");
 			}else {
-				System.out.println("HAM num�ro " + i +" identifi� comme un SPAM *** erreur ***");
+				System.out.println(" identifie comme un SPAM *** erreur ***");
 				nbErreursHams++;
 			}
 		}
