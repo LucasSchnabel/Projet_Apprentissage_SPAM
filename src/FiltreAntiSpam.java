@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -139,7 +140,7 @@ public class FiltreAntiSpam {
 	public void test(int nbSPAM,int nbHAM){
 		
 		//Boucle sur les Spams
-		int nbErreursSpams = 0;
+		double nbErreursSpams = 0;
 		Boolean [] spam;
 		for (int i = 0; i < nbSPAM; i++) {
 			spam = this.lire_message("spam/" + i + ".txt");
@@ -154,7 +155,7 @@ public class FiltreAntiSpam {
 		}
 		
 		//Boucle sur les Hams
-		int nbErreursHams = 0;
+		double nbErreursHams = 0;
 		Boolean [] ham;
 		for (int i = 0; i < nbHAM; i++) {
 			ham = this.lire_message("ham/" + i + ".txt");
@@ -167,12 +168,13 @@ public class FiltreAntiSpam {
 				nbErreursHams++;
 			}
 		}
-		int PTestErreurSpam = (nbErreursSpams / nbSPAM) * 100;
-		int PTestErreurHam = (nbErreursHams / nbHAM) * 100;
-		int PTestErreurTotal = ((nbErreursSpams + nbErreursHams) / (nbSPAM + nbSPAM)) * 100;
-		System.out.println("Erreur de test sur les " + nbSPAM  + " SPAM : " +PTestErreurSpam + " %");
-		System.out.println("Erreur de test sur les " + nbHAM + " HAM : "+ PTestErreurHam + " %");
-		System.out.println("Erreur de test globale sur " + (nbSPAM+nbHAM) + " mails : " + PTestErreurTotal + " % ");
+		DecimalFormat df = new DecimalFormat("#.##");
+		double PTestErreurSpam = (nbErreursSpams / nbSPAM) * 100;
+		double PTestErreurHam = (nbErreursHams / nbHAM) * 100;
+		double PTestErreurTotal = ((nbErreursSpams + nbErreursHams) / (nbSPAM + nbSPAM)) * 100;
+		System.out.println("Erreur de test sur les " + nbSPAM  + " SPAM : " + df.format(PTestErreurSpam) + " %");
+		System.out.println("Erreur de test sur les " + nbHAM + " HAM : "+ df.format(PTestErreurHam) + " %");
+		System.out.println("Erreur de test globale sur " + (nbSPAM+nbHAM) + " mails : " + df.format(PTestErreurTotal) + " % ");
 		
 	}
 	
