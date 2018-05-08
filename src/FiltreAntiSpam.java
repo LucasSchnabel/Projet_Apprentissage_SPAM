@@ -68,8 +68,8 @@ public class FiltreAntiSpam {
 	public void calculeFrequenceMot(){
 		System.out.println("Calcul des fréquances d'apparition des mots...");
 		for(int i = 0;i<this.bHAM.length;i++){
-			this.bHAM[i] = (this.motsHAM[i]+this.epsylon)/(this.nbHAM+2*this.epsylon);
-			this.bSPAM[i] = (this.motsSPAM[i]+this.epsylon)/(this.nbSPAM+2*this.epsylon);
+			this.bHAM[i] = (double)(this.motsHAM[i]+this.epsylon)/(double)(this.nbHAM+2*this.epsylon);
+			this.bSPAM[i] = (double)(this.motsSPAM[i]+this.epsylon)/(double)(this.nbSPAM+2*this.epsylon);
 		}
 		System.out.println("Calcul termine.");
 	}
@@ -81,13 +81,13 @@ public class FiltreAntiSpam {
 	 */
 	public boolean spamDetect(Boolean[] message){
 		//estimation des probabilite a priori P(Y=SPAM) et P(Y=HAM)
-		double pSPAM = this.nbSPAM/this.nbMessage;
-		double pHAM = this.nbHAM/this.nbMessage;
+		double pSPAM = (double)this.nbSPAM/(double)this.nbMessage;
+		double pHAM = (double)this.nbHAM/(double)this.nbMessage;
 		//calcul de P(X=x|Y=SPAM) et P(X=x|Y=HAM)
 		//produit des b
-		double pxSPAM = 0;
-		double pxHAM = 0;
-		for(int i = 0;i<this.bHAM.length;i++){
+		double pxSPAM = this.bSPAM[0];
+		double pxHAM = this.bHAM[0];
+		for(int i = 1;i<this.bHAM.length;i++){
 			if(message[i]){
 				pxSPAM = pxSPAM * this.bSPAM[i];
 				pxHAM = pxHAM * this.bHAM[i];
@@ -102,8 +102,8 @@ public class FiltreAntiSpam {
 		pX += pxHAM * pHAM;
 		
 		//calcul de P(Y=SPAM|X=x) et P(Y=HAM|X=x)
-		double pSPAMx = (1/pX) * pSPAM + pxSPAM;
-		double pHAMx = (1/pX) * pHAM + pxHAM;
+		double pSPAMx = (double)(1/pX) * pSPAM * pxSPAM;
+		double pHAMx = (double)(1/pX) * pHAM * pxHAM;
 		System.out.println("P(Y=SPAM|X=x) = "+pSPAMx+", P(Y=HAM|X=x) = "+pHAMx);
 		//si P(Y=SPAM|X=x)>P(Y=HAM|X=x) alors spam sinon ham
 		if(pSPAMx>pHAMx){
