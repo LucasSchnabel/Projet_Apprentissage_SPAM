@@ -51,9 +51,9 @@ public class FiltreAntiSpam {
 		
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Combien de SPAM dans la base d'apprentissage ?");
-		filtre.nbHAM = sc.nextInt();
-		System.out.println("Combien de HAM dans la base d'apprentissage ?");
 		filtre.nbSPAM = sc.nextInt();
+		System.out.println("Combien de HAM dans la base d'apprentissage ?");
+		filtre.nbHAM = sc.nextInt();
 		
 	    //lancement de l'apprentissage
 	    filtre.apprentissage();
@@ -67,7 +67,7 @@ public class FiltreAntiSpam {
 	 * calcul les valeurs de l'ensemble des tableaux bSPAM et bHAM
 	 */
 	public void calculeFrequenceMot(){
-		System.out.println("Calcul des fréquances d'apparition des mots...");
+		System.out.println("Calcul des fréquences d'apparitions des mots...");
 		for(int i = 0;i<this.bHAM.length;i++){
 			this.bHAM[i] = (double)(this.motsHAM[i]+this.epsylon)/(double)(this.nbHAM+2*this.epsylon);
 			this.bSPAM[i] = (double)(this.motsSPAM[i]+this.epsylon)/(double)(this.nbSPAM+2*this.epsylon);
