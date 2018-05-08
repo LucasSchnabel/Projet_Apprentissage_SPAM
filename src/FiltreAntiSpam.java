@@ -97,7 +97,14 @@ public class FiltreAntiSpam {
 			}
 		}
 		//calcul de P(X=x)
-		
+		double pX=0.0;
+		for (int i = 0; i < message.length; i++) {
+			if(message[i]) {
+				pX += pxSPAM * pSPAM;
+			}else {
+				pX += pxHAM * pHAM;
+			}
+		}
 		//calcul de P(Y=SPAM|X=x) et P(Y=HAM|X=x)
 		double pSPAMx = (1/pX) * pSPAM + pxSPAM;
 		double pHAMx = (1/pX) * pHAM + pxHAM;
