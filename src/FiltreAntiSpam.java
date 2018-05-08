@@ -2,12 +2,13 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FiltreAntiSpam {
 
 	//stock tous les mots du dictionnaire 
-	private String[] dictionnaire;
+	private ArrayList<String> dictionnaire;
 	//frequence d'apparition du mot i dans les SPAM
 	private int[] motsSPAM;
 	//frequence d'apparition du mot i dans les HAM
@@ -27,29 +28,32 @@ public class FiltreAntiSpam {
 	//base utilisï¿½e
 	private String path;
 	
+	public FiltreAntiSpam() {
+		//chargement du dictionnaire
+	    this.charger_dictionnaire("dictionnaire1000en.txt");
+	    System.out.println("Dictionnaire charger.");
+		int taille = this.dictionnaire.size();
+		this.motsHAM = new int[taille];
+		this.motsSPAM = new int[taille];
+		this.bSPAM = new double[taille];
+		this.bHAM = new double[taille];
+		this.epsylon = 1;
+		this.nbMessage = 0;
+	}
+	
 	public static void main(String[] args){
 		//initialisation
-		int taille = 1000;
 		int nbSPAMTest = Integer.parseInt(args[1]);
 		int nbHAMTest = Integer.parseInt(args[2]);
 		FiltreAntiSpam filtre = new FiltreAntiSpam();
-		filtre.path = "baseapp";
-		filtre.motsHAM = new int[taille];
-		filtre.motsSPAM = new int[taille];
-		filtre.bSPAM = new double[taille];
-		filtre.bHAM = new double[taille];
+		
+		
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Combien de SPAM dans la base d'apprentissage ?");
 		filtre.nbHAM = sc.nextInt();
 		System.out.println("Combien de HAM dans la base d'apprentissage ?");
 		filtre.nbSPAM = sc.nextInt();
-		filtre.nbMessage = 0;
-		filtre.epsylon = 1;
 		
-		//chargement du dictionnaire
-	    filtre.charger_dictionnaire("dictionnaire1000en.txt", taille);
-	    System.out.println("Dictionnaire charger.");
-	    
 	    //lancement de l'apprentissage
 	    filtre.apprentissage();
 	    
@@ -67,7 +71,7 @@ public class FiltreAntiSpam {
 			this.bHAM[i] = (this.motsHAM[i]+this.epsylon)/(this.nbHAM+2*this.epsylon);
 			this.bSPAM[i] = (this.motsSPAM[i]+this.epsylon)/(this.nbSPAM+2*this.epsylon);
 		}
-		System.out.println("Calcul terminÃ©.");
+		System.out.println("Calcul terminé.");
 	}
 	
 	/**
@@ -83,6 +87,7 @@ public class FiltreAntiSpam {
 	 * lit la base d'apprentissage et met a jour les attributs en fonction de l'apparition des mots
 	 */
 	public void apprentissage(){
+		this.path = "baseapp";
 		System.out.println("Apprentissage...");
 		Boolean[] message;
 		for(int i = 0;i<this.nbHAM;i++){
@@ -165,18 +170,16 @@ public class FiltreAntiSpam {
 	 * @param nomFichier
 	 * @param taille
 	 */
-	public void charger_dictionnaire(String nomFichier,int taille) { 
+	public void charger_dictionnaire(String nomFichier) { 
 	    String line = ""; 
 	    BufferedReader br = null; 
-	    this.dictionnaire = new String[taille];
+	    this.dictionnaire = new ArrayList<String>();
 	    try { 
 	      br = new BufferedReader(new FileReader(nomFichier)); 
-	      int i = 0; 
 	      // on boucle sur chaque ligne du fichier 
 	      while ((line = br.readLine()) != null) { 
 	    	  if(line.length()>2){
-		        this.dictionnaire[i] = line; 
-		        i++; 
+		        this.dictionnaire.add(line); 
 	    	  }
 	      } 
 	 
@@ -201,7 +204,7 @@ public class FiltreAntiSpam {
 	 * @return
 	 */
 	public Boolean[] lire_message(String nomFichier) { 
-	    Boolean[] res = new Boolean[this.dictionnaire.length]; 
+	    Boolean[] res = new Boolean[this.dictionnaire.size()]; 
 	    for (int i = 0; i < res.length; i++) { 
 	      res[i] = false; 
 	    } 
@@ -214,9 +217,9 @@ public class FiltreAntiSpam {
 	      br = new BufferedReader(new FileReader(this.path+"/"+nomFichier)); 
 	      // on boucle sur chaque ligne du fichier 
 	      while ((line = br.readLine()) != null) { 
-	        for (int i = 0; i < this.dictionnaire.length; i++) { 
+	        for (int i = 0; i < this.dictionnaire.size(); i++) { 
 	          if (!res[i]) { //on recherche le mot dans le mail seulement si il n'est pas dï¿½jï¿½ tro
-	            if (line.contains(this.dictionnaire[i])) { 
+	            if (line.contains(this.dictionnaire.get(i))) { 
 	              res[i] = true; 
 	            } 
 	          } 
