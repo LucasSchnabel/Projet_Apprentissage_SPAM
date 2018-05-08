@@ -80,6 +80,17 @@ public class FiltreAntiSpam {
 	 * 		vrai si SPAM, faux si HAM
 	 */
 	public boolean spamDetect(Boolean[] message){
+		//estimation des probabilite a priori P(Y=SPAM) et P(Y=HAM)
+		
+		//calcul de P(X=x|Y=SPAM) et P(X=x|Y=HAM)
+		//somme des b 
+		
+		//calcul de P(X=x)
+		
+		//calcul de P(Y=SPAM|X=x) et P(Y=HAM|X=x)
+		
+		//si P(Y=SPAM|X=x)>P(Y=HAM|X=x) alors spam sinon ham
+		
 		return true;
 	}
 	
