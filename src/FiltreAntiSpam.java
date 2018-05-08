@@ -81,16 +81,16 @@ public class FiltreAntiSpam {
 	 */
 	public boolean spamDetect(Boolean[] message){
 		//estimation des probabilite a priori P(Y=SPAM) et P(Y=HAM)
-		int pSPAM = this.nbSPAM/this.nbMessage;
-		int pHAM = this.nbHAM/this.nbMessage;
+		double pSPAM = this.nbSPAM/this.nbMessage;
+		double pHAM = this.nbHAM/this.nbMessage;
 		//calcul de P(X=x|Y=SPAM) et P(X=x|Y=HAM)
 		//somme des b 
 		
 		//calcul de P(X=x)
 		
 		//calcul de P(Y=SPAM|X=x) et P(Y=HAM|X=x)
-		int pSPAMx = (1/pX) * pSPAM + pxSPAM;
-		int pHAMx = (1/pX) * pHAM + pxHAM;
+		double pSPAMx = (1/pX) * pSPAM + pxSPAM;
+		double pHAMx = (1/pX) * pHAM + pxHAM;
 		
 		//si P(Y=SPAM|X=x)>P(Y=HAM|X=x) alors spam sinon ham
 		if(pSPAMx>pHAMx){
